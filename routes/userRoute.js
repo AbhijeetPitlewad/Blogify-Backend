@@ -20,6 +20,21 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+
+    try {
+        let user = await User.findById(req.params.id);
+        console.log(user);
+        res.status(200).json({ "user": user });
+    }
+    catch (err) {
+        console.log('ERROR: ' + err.message);
+        res.status(400).json({
+            "error": err.message
+        });
+    }
+});
+
 router.post('/sign-in', async (req, res) => {
 
     try {
@@ -52,6 +67,26 @@ router.post('/sign-up', async (req, res) => {
 
         res.status(201).json({
             "message": " User created successfully",
+            "user": user
+        });
+    }
+    catch (err) {
+        console.log('ERROR: ' + err.message);
+        res.status(400).json({
+            "error": err.message
+        });
+    }
+})
+
+
+router.put('/:id', async (req, res) => {
+
+    try {
+        let user = await User.findByIdAndUpdate({ _id : req.params.id}, req.body, { new : true});
+        console.log(user);
+
+        res.status(201).json({
+            "message": " User updated successfully",
             "user": user
         });
     }

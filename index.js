@@ -1,5 +1,7 @@
 const express= require('express');
 const mongoose= require('mongoose');
+const cors= require('cors')
+
 const { User } = require('./models/user');
 // const { Blog } = require('./models/Blog');
 
@@ -20,6 +22,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/BloggingDB')
 const app= express();
 
 app.use(express.json())
+
+app.use(cors())
 
 app.get("/", (req, res)=>{
     console.log("http://localhost:9292/student_database")
