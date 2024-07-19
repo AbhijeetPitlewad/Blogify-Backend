@@ -26,7 +26,15 @@ const userSchema = new mongoose.Schema({
         require: true,
         minLength: 6,
         unique: true
-    }
+    },
+
+    blog : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'blog'
+        }
+    ]
+
 },
 
     { timestamps: true }

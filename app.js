@@ -1,27 +1,40 @@
 const express= require('express');
 const mongoose= require('mongoose');
 const cors= require('cors')
+const cookieParser= require('cookie-parser');
 
-const { User } = require('./models/user');
-// const { Blog } = require('./models/Blog');
+const connectToMongoDB = require('./config/database-connect');
+
+const isLoggedIn = require('./middlewares/auth');
+
 
 const userRoute= require('./routes/userRoute')
 const blogRoute= require('./routes/blogRoute')
 const commentRoute= require('./routes/commentRoute')
 
+
+
+
 const PORT= 9292;
 
-mongoose.connect('mongodb://127.0.0.1:27017/BloggingDB')
-.then(() => {
-    console.log('Connected to MongoDB succesfully!');
-})
-.catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-});
+// mongoose.connect('mongodb://127.0.0.1:27017/BloggingDB')
+// .then(() => {
+//     console.log('Connected to MongoDB succesfully!');
+// })
+// .catch((error) => {
+//     console.error('Error connecting to MongoDB:', error.message);
+// });
+
+
+connectToMongoDB();
 
 const app= express();
 
 app.use(express.json())
+app.use(cookieParser());
+app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true})  );
+
 
 app.use(cors())
 

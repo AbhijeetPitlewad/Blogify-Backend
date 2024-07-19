@@ -10,11 +10,18 @@ const blogSchema= new mongoose.Schema({
         require: true
     },
     
-    createdBy: {
+    postedBy: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'user',
         require: true
-    }    
+    },
+    
+    comments : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'comment'
+        }
+    ]
 },
     { timestamps: true}
 );

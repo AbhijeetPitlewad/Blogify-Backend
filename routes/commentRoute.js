@@ -6,6 +6,32 @@ const Comment= require('../models/comment');
 
 const router = express.Router();
 
+
+router.post('/blog/:id/comment', async (req, res) => {
+
+    try {
+        
+        
+        let user= JSON.parse(req.cookies['token'])
+        let userId= user?._id;
+        let comment=  req.body.comment;
+        let blogId= req.params.id;
+        let postedComment = await Comment.create({ comment, blogId, userId} );
+        console.log(postComment);
+
+        res.status(201).json({
+            "message": "Comment added successfully",
+            "comment": postedComment
+        });
+    }
+    catch (err) {
+        console.log('ERROR: ' + err.message);
+        res.status(400).json({
+            "error": err.message
+        });
+    }
+});
+
 router.get('/', async (req, res) => {
 
     try {
@@ -21,25 +47,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
 
-    try {
-        let { comment, blogId, user}= req.body;
-        let postComment = await Comment.create({ comment, blogId, user} );
-        console.log(postComment);
-
-        res.status(201).json({
-            "message": "Comment added successfully",
-            "comment": postComment
-        });
-    }
-    catch (err) {
-        console.log('ERROR: ' + err.message);
-        res.status(400).json({
-            "error": err.message
-        });
-    }
-});
 
 
 //this comments are related to blog so we should implement it in Blog which is good choice
